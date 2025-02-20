@@ -6,13 +6,15 @@ console.log('API Key:', process.env.REACT_APP_GEMINI_API_KEY);
 const client = new GoogleGenerativeAI(
     process.env.REACT_APP_GEMINI_API_KEY
 );
+const model = client.getGenerativeModel({
+    model: 'gemini-1.5-flash',
+});
 
 async function run (input){
-    const model = client.getGenerativeModel({
-        model: 'gemini-1.5-flash',
-    });
+    
 
     const prompt = `${input}`
+    console.log(prompt)
 
     const result = await model.generateContent(prompt);
     const response = await result.response;

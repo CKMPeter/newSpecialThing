@@ -4,14 +4,14 @@ import { useFolder } from "../../hooks/useFolder";
 import AddFolderButton from "./AddFolderButton";
 import Folder from "./Folder";
 import Navbar from "./Navbar";
-import { useParams, useLocation } from "react-router-dom";
+import { useParams} from "react-router-dom";
 import FolderBreadcrumbs from "./FolderBreadcrumbs";
 import AddFileButton from "./AddFileButton";
 import File from "./File";
 import Chatbot from "./ChatBot"; // Import your Chatbot component
+import "../../index.css"
 
 export default function Dashboard() {
-  const { state = {} } = useLocation();
   const { folderId } = useParams();
   const { folder, childFolders, childFiles } = useFolder(folderId);
   const [showChatbot, setShowChatbot] = useState(false);
@@ -39,7 +39,7 @@ export default function Dashboard() {
     <>
       <Navbar />
       <Container fluid>
-        <div className="d-flex align-items-center">
+        <div className="d-flex align-items-center fw-bold">
           <FolderBreadcrumbs currentFolder={folder} />
           <AddFolderButton currentFolder={folder} />
           <AddFileButton currentFolder={folder} />

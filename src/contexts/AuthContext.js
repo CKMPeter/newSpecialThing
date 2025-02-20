@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { auth } from '../firebase'; // Ensure the correct relative path
-import { createUserWithEmailAndPassword, sendPasswordResetEmail, signInWithEmailAndPassword, signOut } from 'firebase/auth';
+import { auth} from '../firebase'; // Ensure the correct relative path
+import { createUserWithEmailAndPassword, sendPasswordResetEmail, signInWithEmailAndPassword, signOut, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 
 const AuthContext = React.createContext();
 
@@ -23,6 +23,19 @@ export function AuthProvider({ children }) {
         }
     }
 
+    async function signInGoogle() {
+        const provider = new GoogleAuthProvider();
+        setError(null)
+        await signInWithPopup(auth, provider)
+        .then((result) => {
+            const credential = GoogleAuthProvider.credentialFromResult(result);
+            const user = result.user;
+        }).catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+        })
+    }
+
     // Function to log in an existing user
     async function login(email, password) {
         try {
@@ -32,6 +45,8 @@ export function AuthProvider({ children }) {
             setError(error.message); // Store error message
         }
     }
+
+    //Funtion to log in using Google
 
     // Function to log out the current user
     async function logout() {
@@ -102,6 +117,7 @@ export function AuthProvider({ children }) {
         resetPassword,
         updateEmail,
         updatePassword,
+        signInGoogle,
         error, // Pass error state to components using the context
     };
 
